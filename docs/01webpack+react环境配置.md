@@ -61,14 +61,21 @@ less 是 css 的语法糖，可以更高效低冗余的写 css
 
 对 webpack-dev-server 的配置
 
-### npm start
+### 配置package.json
 
-在 package.json 中，输入以下代码，将这一串命令封装为`npm start`，这样就可以运行项目代码了。(`cnpm start`前`cnpm install`)
+`process.env`中默认并没有`NODE_ENV`，需要配置下`package.json`。
+
+- 为了兼容Windows和Mac，需安装 `cross-env`:
+`npm install cross-env -D`
+
+- 在`package.json`的 `scripts` 中，输入以下代码，将这两串命令分别封装为`npm run dev`和`npm run build`，这样就可以运行项目代码了。
+(运行前先`cnpm i`确保依赖都搭建好)
 
 ```json
   "scripts": {
-    "start": "NODE_ENV=dev webpack-dev-server --progress --colors"
-  }
+    "dev": "cross-env NODE_ENV=dev webpack-dev-server",
+    "build": "cross-env NODE_ENV=production webpack"
+},
 ```
 
 代码中`NODE_ENV=dev`代表当前是开发环境下，这里的`"dev"`可被 js 代码中的`process.env.NODE_ENV`得到并做一些其他处理。
